@@ -22,18 +22,18 @@ public:
 		return futa;
 	}
 	void set(const T& o) {
-		checkError();
 		std::unique_lock<std::mutex> l(futa->fMutex);
+		checkError();
 		futa->setInternal(o);
 	}
 	void set(T&& o) {
-		checkError();
 		std::unique_lock<std::mutex> l(futa->fMutex);
+		checkError();
 		futa->setInternal(o);
 	}
 	void setException(const std::exception_ptr & o) {
-		checkError();
 		std::unique_lock<std::mutex> l(futa->fMutex);
+		checkError();
 		futa->setInternalError(o);
 	}
 private:

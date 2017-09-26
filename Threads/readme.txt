@@ -1,0 +1,1 @@
+Threadpool с поддержкой promise и future. Можно использовать просто метод execute если future не нужен.
