@@ -1,0 +1,54 @@
+#pragma once
+#include <functional>
+#include <queue>
+#include <thread>
+#include <mutex>
+#include <vector>
+#include <condition_variable>
+#include <atomic>
+#include <memory>
+#include "future.h"
+
+template<typename T>
+class Promise {
+
+public:
+	Promise();
+	~Promise();
+	Promise(Promise<T> && p);
+	Future<T> GetFuture();
+	void Set(const T& o);
+	void Set(T&& o);
+	void SetException(const std::exception_ptr & o);
+	std::shared_ptr<shared_state<T>> state;
+	bool checkError();
+};
+
+template<>
+class Promise<void> {
+
+public:
+	Promise();
+	~Promise();
+	Promise(Promise<void> && p);
+	Future<void> GetFuture();
+	void Set();
+	void SetException(const std::exception_ptr & o);
+	std::shared_ptr<shared_state<void>> state;
+	bool checkError();
+};
+
+template<typename T>
+class Promise<T&> {
+
+public:
+	Promise();
+	~Promise();
+	Promise(Promise<T&> && p);
+	Future<T&> GetFuture();
+	void Set(T& o);
+	void Set(T&& o);
+	void SetException(const std::exception_ptr & o);
+	std::shared_ptr<shared_state<T&>> state;
+	bool checkError();
+};

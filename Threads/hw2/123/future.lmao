@@ -1,0 +1,44 @@
+#pragma once
+#include <functional>
+#include <queue>
+#include <thread>
+#include <mutex>
+#include <vector>
+#include <condition_variable>
+#include <atomic>
+#include <memory>
+#include "shared_state.h"
+
+
+template<typename T>
+class Future {
+public:
+	Future(Future<T> && f);
+	const T& Get() const;
+	bool IsReady() const;
+	void Wait() const;
+	std::shared_ptr<shared_state<T>> state;
+	Future(std::shared_ptr<shared_state<T>> s);
+};
+
+template<>
+class Future<void> {
+public:
+	Future(Future<void> && f);
+	void Get() const;
+	bool IsReady() const;
+	void Wait() const;
+	std::shared_ptr<shared_state<void>> state;
+	Future(std::shared_ptr<shared_state<void>> s);
+};
+
+template<typename T>
+class Future<T&> {
+public:
+	Future(Future<T&> && f);
+	T& Get();
+	bool IsReady() const;
+	void Wait() const;
+	std::shared_ptr<shared_state<T&>> state;
+	Future(std::shared_ptr<shared_state<T&>> s);
+};
