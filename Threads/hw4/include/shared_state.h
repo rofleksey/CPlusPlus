@@ -7,6 +7,7 @@
 #include <condition_variable>
 #include <atomic>
 #include <memory>
+#include "thread_pool.h"
 
 template<typename T>
 class shared_state {
@@ -14,6 +15,7 @@ public:
 	std::atomic<bool> isSet, promiseDestroyed;
 	mutable std::condition_variable cVar;
 	mutable std::mutex fMutex;
+	thread_pool * pool = nullptr;
 	T result;
 	bool isException;
 	std::exception_ptr exc;
@@ -50,6 +52,7 @@ public:
 	std::atomic<bool> isSet, promiseDestroyed;
 	mutable std::condition_variable cVar;
 	mutable std::mutex fMutex;
+	thread_pool * pool;
 	bool result;
 	bool isException;
 	std::exception_ptr exc;
@@ -80,6 +83,7 @@ public:
 	std::atomic<bool> isSet, promiseDestroyed;
 	mutable std::condition_variable cVar;
 	mutable std::mutex fMutex;
+	thread_pool * pool;
 	T * result;
 	bool isException;
 	std::exception_ptr exc;

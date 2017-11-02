@@ -7,6 +7,7 @@
 #include <condition_variable>
 #include <atomic>
 #include <memory>
+#include "thread_pool.h"
 #include "shared_state.h"
 
 template<typename T>
@@ -23,6 +24,10 @@ public:
 	Future operator=(const Future<T> & f) {
 		state = f.state;
 	}*/
+
+	thread_pool * GetPool() {
+		return state->pool;
+	}
 
 	const T& Get() const {
 		Wait();

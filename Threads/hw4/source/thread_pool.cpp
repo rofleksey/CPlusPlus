@@ -12,6 +12,7 @@
 		stop = false;
 		for (int i = 0; i < num; i++) {
 			workers.emplace_back([this]() -> void {
+				curPool = this;
 				while (true) {
 					std::function<void()> task;
 					{
@@ -51,4 +52,6 @@
 			w.join();
 		}
 	}
+
+	thread_local thread_pool * thread_pool::curPool = nullptr;
 

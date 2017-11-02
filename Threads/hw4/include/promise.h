@@ -7,6 +7,7 @@
 #include <condition_variable>
 #include <atomic>
 #include <memory>
+#include "thread_pool.h"
 #include "shared_state.h"
 #include "future.h"
 
@@ -24,6 +25,9 @@ public:
 	}
 	Future<T> GetFuture() {
 		return Future<T>(state);
+	}
+	void SetPool(thread_pool * pool) {
+		state->pool = pool;
 	}
 	void Set(const T& o) {
 		std::unique_lock<std::mutex> l(state->fMutex);
@@ -65,6 +69,9 @@ public:
 	Future<void> GetFuture() {
 		return Future<void>(state);
 	}
+	void SetPool(thread_pool * pool) {
+		state->pool = pool;
+	}
 	void Set() {
 		std::unique_lock<std::mutex> l(state->fMutex);
 		checkError();
@@ -98,6 +105,9 @@ public:
 	}
 	Future<T&> GetFuture() {
 		return Future<T&>(state);
+	}
+	void SetPool(thread_pool * pool) {
+		state->pool = pool;
 	}
 	void Set(T& o) {
 		std::unique_lock<std::mutex> l(state->fMutex);

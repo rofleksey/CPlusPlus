@@ -1,3 +1,4 @@
+#pragma once
 #include <functional>
 #include <queue>
 #include <thread>
@@ -13,6 +14,7 @@ public:
 	thread_pool(int32_t num);
 	void execute(std::function<void()> const & f);
 	~thread_pool();
+	static thread_local thread_pool * curPool;
 private:
 	std::queue<std::function<void()> > q;
 	std::mutex q_mutex;
