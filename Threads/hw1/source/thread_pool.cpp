@@ -10,6 +10,7 @@
 #include "thread_pool.h"
 	thread_pool::thread_pool(int32_t num) {
 		std::cerr << "Creating thread_pool with " << num << " threads!" << std::endl;
+		stop = false;
 		for (int i = 0; i < num; i++) {
 			workers.emplace_back([this]() -> void {
 				while (true) {
